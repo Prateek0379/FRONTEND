@@ -1,0 +1,58 @@
+.ui-top-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+/* Left side */
+.ui-top-header__left h1 {
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: #f8fafc;
+}
+
+.ui-top-header__left p {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+/* Right side */
+.ui-top-header__right {
+  display: flex;
+  gap: 12px;
+}
+
+/* Buttons (FINAL POLISHED) */
+.ui-btn {
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.ui-btn.primary {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.ui-btn.primary:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+}
+
+.ui-btn.secondary {
+  background-color: #1e293b;
+  color: #e5e7eb;
+}
+
+.ui-btn.secondary:hover {
+  background-color: #334155;
+  transform: translateY(-1px);
+}
