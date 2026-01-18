@@ -21,8 +21,11 @@ function SignUp() {
     try {
       await signup(name, email, password);
       navigate("/login");
-    } catch {
-      setError("Signup failed. Please try again.");
+    } catch (err) {
+      const msg =
+        err?.response?.data?.message ||
+        "Signup failed. Please check details.";
+      setError(msg);
     } finally {
       setLoading(false);
     }
