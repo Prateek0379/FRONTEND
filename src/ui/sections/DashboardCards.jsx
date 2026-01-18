@@ -1,39 +1,69 @@
+import { useEffect, useState } from "react";
 import Card from "../components/Card";
+import api from "../../services/api";
+
 import "../styles/dashboardCards.css";
 
-const cards = [
-  {
-    label: "Total Students",
-    value: "1,248",
-    meta: "+12% from last year",
-  },
-  {
-    label: "Placed Students",
-    value: "842",
-    meta: "67.4% placement rate",
-  },
-  {
-    label: "Average CTC",
-    value: "₹8.2 LPA",
-    meta: "Across all offers",
-  },
-  {
-    label: "Top Recruiters",
-    value: "56",
-    meta: "Active companies",
-  },
-];
-
 const DashboardCards = () => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    async function fetchDashboardStats() {
+      try {
+        const res = await api.get("/analytics/overview");
+        setData(res.data);
+      } catch (err) {
+        console.error("Failed to fetch dashboard cards", err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchDashboardStats();
+  }, []);
+
+  if (loading) {
+    return <p>Loading metrics…</p>;
+  }
+
+  if (error || !data) {
+    return (
+      <p style={{ color: "#ef4444" }}>
+        Unable to load dashboard metrics.
+      </p>
+    );
+  }
+
   return (
     <section className="ui-cards">
-      {cards.map((card, idx) => (
-        <Card key={idx}>
-          <p className="ui-card__label">{card.label}</p>
-          <h2 className="ui-card__value">{card.value}</h2>
-          <p className="ui-card__meta">{card.meta}</p>
-        </Card>
-      ))}
+      <Card>
+        <p className="ui-card__label">Total Students</p>
+        <h2 className="ui-card__value">{data.totalStudents}</h2>
+        <p className="ui-card__meta">All registered students</p>
+      </Card>
+
+      <Card>
+        <p className="ui-card__label">Placed Students</p>
+        <h2 className="ui-card__value">{data.placedStudents}</h2>
+        <p className="ui-card__meta">
+          {data.placementRate}% placement rate
+        </p>
+      </Card>
+
+      <Card>
+        <p className="ui-card__label">Average CGPA</p>
+        <h2 className="ui-card__value">{data.averageCgpa}</h2>
+        <p className="ui-card__meta">Across placed students</p>
+      </Card>
+
+      <Card>
+        <p className="ui-card__label">Top Recruiters</p>
+        <h2 className="ui-card__value">{data.topRecruiters}</h2>
+        <p className="ui-card__meta">Active companies</p>
+      </Card>
     </section>
   );
 };
