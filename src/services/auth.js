@@ -1,15 +1,6 @@
 import api from "./api";
 
-export async function signup(name, email, password) {
-  const res = await api.post("/api/auth/signup", {
-    name,
-    email,
-    password,
-  });
-
-  return res.data;
-}
-
+/* 🔐 LOGIN */
 export async function login(email, password) {
   const res = await api.post("/api/auth/login", {
     email,
@@ -22,4 +13,27 @@ export async function login(email, password) {
   }
 
   return res.data;
+}
+
+/* 🆕 SIGNUP */
+export async function signup(name, email, password) {
+  const res = await api.post("/api/auth/signup", {
+    name,
+    email,
+    password,
+  });
+
+  return res.data;
+}
+
+/* 🔄 RESTORE SESSION */
+export async function getCurrentUser() {
+  const res = await api.get("/api/auth/me");
+  return res.data.user;
+}
+
+/* 🚪 LOGOUT */
+export function logout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
 }
