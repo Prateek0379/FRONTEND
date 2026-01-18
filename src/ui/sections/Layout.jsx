@@ -1,20 +1,16 @@
 import Sidebar from "./Sidebar";
-import "../styles/layout.css";
+import { Outlet } from "react-router-dom";
+import "../styles/layout.css";   // 🔴 THIS LINE IS REQUIRED
 
-const Layout = ({ children }) => {
+function Layout() {
   return (
     <div className="ui-layout">
       <Sidebar />
-
       <main className="ui-layout__content">
-        {children || (
-          <div className="ui-placeholder">
-            Main content goes here
-          </div>
-        )}
+        <Outlet />
       </main>
     </div>
   );
-};
+}
 
 export default Layout;

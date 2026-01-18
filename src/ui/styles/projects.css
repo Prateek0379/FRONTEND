@@ -1,0 +1,33 @@
+.ui-projects {
+  width: 100%;
+}
+
+.ui-projects__content {
+  margin-top: 32px;
+}
+
+/* Empty state */
+.ui-projects__empty {
+  border: 1px dashed #1e293b;
+  border-radius: 16px;
+  padding: 48px 24px;
+  text-align: center;
+  color: #94a3b8;
+  background: radial-gradient(
+    circle at top,
+    rgba(255, 255, 255, 0.03),
+    transparent 70%
+  );
+}
+
+.ui-projects__empty h3 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #f8fafc;
+  margin-bottom: 8px;
+}
+
+.ui-projects__empty p {
+  font-size: 14px;
+  color: #94a3b8;
+}

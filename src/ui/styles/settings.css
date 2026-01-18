@@ -1,0 +1,44 @@
+.ui-settings {
+  width: 100%;
+}
+
+.ui-settings__content {
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+/* Card */
+.ui-settings__card {
+  background-color: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.ui-settings__card h3 {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  color: #f8fafc;
+}
+
+/* Rows */
+.ui-settings__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  font-size: 14px;
+  color: #e5e7eb;
+}
+
+.ui-settings__row + .ui-settings__row {
+  border-top: 1px solid #1e293b;
+}
+
+.ui-settings__value {
+  font-size: 13px;
+  color: #94a3b8;
+}
