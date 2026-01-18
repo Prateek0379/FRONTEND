@@ -4,7 +4,9 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import Layout from "./ui/sections/Layout";
+
 import Auth from "./pages/Auth";
+import SignUp from "./pages/SignUp";
 
 import Dashboard from "./pages/Dashboard";
 import Analytics from "./pages/Analytics";
@@ -17,9 +19,12 @@ function App() {
       <AuthProvider>
         <Routes>
 
+          {/* Public */}
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Auth />} />
+          <Route path="/signup" element={<SignUp />} />
 
+          {/* Protected App */}
           <Route
             path="/app"
             element={
@@ -34,7 +39,9 @@ function App() {
             <Route path="settings" element={<Settings />} />
           </Route>
 
+          {/* Fallback */}
           <Route path="*" element={<Navigate to="/login" replace />} />
+
         </Routes>
       </AuthProvider>
     </BrowserRouter>

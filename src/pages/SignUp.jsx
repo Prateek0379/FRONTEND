@@ -1,34 +1,48 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../services/auth";
+import { signup } from "../services/auth";
 
 import "../ui/styles/auth.css";
 
-function Auth() {
+function SignUp() {
   const navigate = useNavigate();
+
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  async function handleLogin(e) {
+  async function handleSignup(e) {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
-      await login(email, password);
-      navigate("/app");
+      await signup(name, email, password);
+      navigate("/login");
     } catch {
-      setError("Invalid email or password");
+      setError("Signup failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
     <div className="auth-page">
-      <form className="auth-card" onSubmit={handleLogin}>
-        <h2>Welcome back</h2>
+      <form className="auth-card" onSubmit={handleSignup}>
+        <h2>Create an account</h2>
         <p className="auth-subtitle">
-          Sign in to access your dashboard
+          Sign up to access placement insights
         </p>
+
+        <input
+          type="text"
+          placeholder="Full Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
 
         <input
           type="email"
@@ -48,17 +62,17 @@ function Auth() {
 
         {error && <p style={{ color: "#ef4444" }}>{error}</p>}
 
-        <button className="auth-btn" type="submit">
-          Login
+        <button className="auth-btn" type="submit" disabled={loading}>
+          {loading ? "Creating account..." : "Sign Up"}
         </button>
 
         <p className="auth-switch">
-          Don’t have an account?{" "}
-          <span onClick={() => navigate("/signup")}>Sign up</span>
+          Already have an account?{" "}
+          <span onClick={() => navigate("/login")}>Login</span>
         </p>
       </form>
     </div>
   );
 }
 
-export default Auth;
+export default SignUp;
