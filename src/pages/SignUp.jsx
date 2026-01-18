@@ -22,14 +22,10 @@ function SignUp() {
       await signup(name, email, password);
       navigate("/login");
     } catch (err) {
-      console.error("Signup error:", err?.response?.data);
-
-      const msg =
-        err?.response?.data?.message ||
-        err?.response?.data?.error ||
-        "Signup failed. Please check details.";
-
-      setError(msg);
+      // ✅ READ BACKEND MESSAGE DIRECTLY
+      setError(
+        err.response?.data?.message || "Signup failed"
+      );
     } finally {
       setLoading(false);
     }
