@@ -1,10 +1,15 @@
 import axios from "axios";
 
-const API_BASE = "https://placementmatrixbackend.onrender.com/api";
+const api = axios.create({
+  baseURL: "https://placementmatrixbackend.onrender.com/api",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
-/* ================= SIGNUP ================= */
+/* SIGNUP */
 export async function signup(name, email, password) {
-  const res = await axios.post(`${API_BASE}/auth/signup`, {
+  const res = await api.post("/auth/signup", {
     name,
     email,
     password,
@@ -12,24 +17,23 @@ export async function signup(name, email, password) {
   return res.data;
 }
 
-/* ================= LOGIN ================= */
+/* LOGIN */
 export async function login(email, password) {
-  const res = await axios.post(`${API_BASE}/auth/login`, {
+  const res = await api.post("/auth/login", {
     email,
     password,
   });
 
-  const { token, user } = res.data;
-  localStorage.setItem("token", token);
-  return user;
+  localStorage.setItem("token", res.data.token);
+  return res.data.user;
 }
 
-/* ================= CURRENT USER ================= */
+/* CURRENT USER */
 export async function getCurrentUser() {
   const token = localStorage.getItem("token");
   if (!token) return null;
 
-  const res = await axios.get(`${API_BASE}/auth/me`, {
+  const res = await api.get("/auth/me", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -38,7 +42,6 @@ export async function getCurrentUser() {
   return res.data.user;
 }
 
-/* ================= LOGOUT ================= */
 export function logout() {
   localStorage.removeItem("token");
 }
