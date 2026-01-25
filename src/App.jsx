@@ -18,13 +18,11 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-
-          {/* Public */}
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          {/* ================= PUBLIC ROUTES ================= */}
           <Route path="/login" element={<Auth />} />
           <Route path="/signup" element={<SignUp />} />
 
-          {/* Protected App */}
+          {/* ================= PROTECTED APP ================= */}
           <Route
             path="/app"
             element={
@@ -39,9 +37,9 @@ function App() {
             <Route path="settings" element={<Settings />} />
           </Route>
 
-          {/* Fallback */}
+          {/* ================= DEFAULT & FALLBACK ================= */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
-
         </Routes>
       </AuthProvider>
     </BrowserRouter>
