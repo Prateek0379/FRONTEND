@@ -1,25 +1,46 @@
+/* ===== AUTH PAGE FULL SCREEN ===== */
+
 .auth-page {
   min-height: 100vh;
-  background-color: #020617;
+  width: 100vw;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
+  background: radial-gradient(
+    circle at top,
+    #020617 0%,
+    #020617 40%,
+    #01030d 100%
+  );
+
+  padding: 16px;
 }
+
+/* ===== AUTH CARD ===== */
 
 .auth-card {
   width: 100%;
-  max-width: 380px;
-  background-color: #020617;
-  border: 1px solid #1e293b;
+  max-width: 420px;
+
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(12px);
+
   border-radius: 16px;
+  border: 1px solid #1e293b;
+
   padding: 32px;
-  color: #e5e7eb;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 }
+
+/* ===== TEXT ===== */
 
 .auth-card h2 {
   font-size: 24px;
-  margin-bottom: 8px;
+  font-weight: 600;
   color: #f8fafc;
+  margin-bottom: 6px;
 }
 
 .auth-subtitle {
@@ -28,56 +49,63 @@
   margin-bottom: 24px;
 }
 
-.auth-form {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
+/* ===== INPUTS ===== */
 
-.auth-form input {
-  background-color: #020617;
-  border: 1px solid #334155;
-  border-radius: 10px;
+.auth-card input {
+  width: 100%;
   padding: 12px 14px;
-  color: #f8fafc;
+  margin-bottom: 14px;
+
+  border-radius: 8px;
+  border: 1px solid #1e293b;
+
+  background-color: #020617;
+  color: #e5e7eb;
   font-size: 14px;
 }
 
-.auth-form input::placeholder {
+.auth-card input::placeholder {
   color: #64748b;
 }
 
-.auth-form input:focus {
+.auth-card input:focus {
   outline: none;
   border-color: #3b82f6;
 }
 
+/* ===== BUTTON ===== */
+
 .auth-btn {
-  margin-top: 10px;
+  width: 100%;
   padding: 12px;
+  margin-top: 8px;
+
   border-radius: 10px;
   border: none;
+
   background-color: #3b82f6;
   color: white;
+
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s ease;
 }
 
 .auth-btn:hover {
   background-color: #2563eb;
 }
 
+/* ===== SWITCH LINK ===== */
+
 .auth-switch {
-  margin-top: 20px;
+  margin-top: 16px;
   font-size: 13px;
   color: #94a3b8;
   text-align: center;
 }
 
 .auth-switch span {
-  color: #3b82f6;
+  color: #60a5fa;
   cursor: pointer;
 }
 
