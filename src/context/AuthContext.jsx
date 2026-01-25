@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getCurrentUser, logout } from "../services/auth";
+import api from "../services/api";
 
 const AuthContext = createContext();
 
@@ -8,28 +8,35 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function restoreSession() {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setLoading(false);
-          return;
-        }
+    const token = localStorage.getItem("token");
 
-        const user = await getCurrentUser();
-        setUser(user);
-      } catch {
-        logout();
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+
+    async function fetchUser() {
+      try {
+        const res = await api.get("/auth/me");
+        setUser(res.data.user); // ✅ CORRECT
+      } catch (err) {
+        localStorage.removeItem("token");
+        setUser(null);
       } finally {
         setLoading(false);
       }
     }
 
-    restoreSession();
+    fetchUser();
   }, []);
 
+  function logout() {
+    localStorage.removeItem("token");
+    setUser(null);
+  }
+
   return (
-    <AuthContext.Provider value={{ user, setUser, loading }}>
+    <AuthContext.Provider value={{ user, loading, logout }}>
       {children}
     </AuthContext.Provider>
   );
