@@ -21,11 +21,13 @@ function SignUp() {
     try {
       await signup(name, email, password);
       navigate("/login");
-    } catch (err) {
-      // ✅ READ BACKEND MESSAGE DIRECTLY
+    } catch (err) { 
+      console.error("Signup error:", err.response?.data);
+
       setError(
-        err.response?.data?.message || "Signup failed"
-      );
+      err.response?.data?.message ||
+      "Signup failed. Please try again."
+    );
     } finally {
       setLoading(false);
     }
