@@ -1,24 +1,30 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function TopHeader({ title, subtitle }) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   function handleExport() {
-    // Simple CSV export placeholder
-    const csvContent =
-      "data:text/csv;charset=utf-8,Metric,Value\nStudents,1248\nPlaced,842";
-    const encodedUri = encodeURI(csvContent);
+    const csv =
+      "Metric,Value\nTotal Students,1248\nPlaced Students,842\nAverage CTC,8.2";
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
 
     const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "dashboard_export.csv");
-    document.body.appendChild(link);
+    link.href = url;
+    link.download = "placement_insights.csv";
     link.click();
-    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
   }
 
   function handleAddNew() {
-    navigate("/app/projects");
+    if (location.pathname.includes("/projects")) {
+      alert("Use the Add Project button below 👇");
+    } else {
+      navigate("/app/projects");
+    }
   }
 
   return (
@@ -29,10 +35,17 @@ function TopHeader({ title, subtitle }) {
       </div>
 
       <div className="ui-top-header__right">
-        <button className="ui-btn secondary" onClick={handleExport}>
+        <button
+          className="ui-btn secondary"
+          onClick={handleExport}
+        >
           Export
         </button>
-        <button className="ui-btn primary" onClick={handleAddNew}>
+
+        <button
+          className="ui-btn primary"
+          onClick={handleAddNew}
+        >
           Add New
         </button>
       </div>
