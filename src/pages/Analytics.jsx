@@ -1,9 +1,9 @@
-import AnalyticsUI from "../ui/sections/AnalyticsUI";
+import DashboardCharts from "../ui/sections/DashboardCharts";
 
 function Analytics() {
   return (
-    <div style={{ width: "100%", height: "100%" }}>
-      <AnalyticsUI />
+    <div className="ui-dashboard">
+      <DashboardCharts />
     </div>
   );
 }

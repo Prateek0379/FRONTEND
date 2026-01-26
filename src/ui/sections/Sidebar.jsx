@@ -1,4 +1,6 @@
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+
 import "../styles/sidebar.css";
 
 import dashboardIcon from "../assets/icons/dashboard.svg";
@@ -7,6 +9,8 @@ import projectsIcon from "../assets/icons/projects.svg";
 import settingsIcon from "../assets/icons/settings.svg";
 
 const Sidebar = () => {
+  const { user } = useAuth();
+
   return (
     <aside className="ui-sidebar">
       {/* Logo */}
@@ -49,7 +53,7 @@ const Sidebar = () => {
       <div className="ui-sidebar__footer">
         <div className="ui-sidebar__user">
           <div className="avatar" />
-          <span>John Doe</span>
+          <span>{user?.name || "User"}</span>
         </div>
       </div>
     </aside>

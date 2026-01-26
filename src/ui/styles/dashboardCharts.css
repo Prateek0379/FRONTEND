@@ -1,18 +1,32 @@
-.ui-charts {
+/* ===== Charts Grid ===== */
+.ui-charts-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 32px;
+  margin-top: 32px;
 }
 
-/* Chart container */
+/* ===== Chart Card ===== */
 .ui-chart-card {
-  background-color: #020617;
+  background: linear-gradient(180deg, #020617, #020617);
   border: 1px solid #1e293b;
   border-radius: 16px;
   padding: 24px;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Chart title */
+/* Subtle glow effect (premium look) */
+.ui-chart-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(59, 130, 246, 0.08);
+}
+
+/* ===== Chart Title ===== */
 .ui-chart-card h3 {
   font-size: 16px;
   font-weight: 600;
@@ -20,30 +34,32 @@
   margin-bottom: 16px;
 }
 
-/* Simple chart list (clean + readable) */
-.chart-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+/* ===== Recharts overrides ===== */
+.recharts-tooltip-wrapper {
+  outline: none;
 }
 
-.chart-list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #1e293b;
-  font-size: 14px;
-  color: #e5e7eb;
+.recharts-default-tooltip {
+  background-color: #020617 !important;
+  border: 1px solid #1e293b !important;
+  border-radius: 8px !important;
+  color: #f8fafc !important;
+  font-size: 13px;
 }
 
-.chart-list li:last-child {
-  border-bottom: none;
+.recharts-cartesian-axis-tick text {
+  fill: #94a3b8;
+  font-size: 12px;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .ui-charts {
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: #1e293b;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+  .ui-charts-grid {
     grid-template-columns: 1fr;
   }
 }
