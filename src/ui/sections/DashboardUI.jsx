@@ -8,9 +8,8 @@ import "../styles/animations.css";
 function DashboardUI() {
   return (
     <div className="ui-dashboard">
-      
       {/* Header */}
-      <div className="animate-fade-up">
+      <div className="animate-fade-up" style={{ marginBottom: 12 }}>
         <TopHeader
           title="Placement Insights Dashboard"
           subtitle="Overview of performance metrics and insights"
@@ -23,10 +22,12 @@ function DashboardUI() {
       </div>
 
       {/* Charts */}
-      <div className="animate-fade-up delay-2">
+      <div
+        className="animate-fade-up delay-2"
+        style={{ marginTop: 48 }} /* 🔥 clear separation like Video 2 */
+      >
         <DashboardCharts />
       </div>
-
     </div>
   );
 }

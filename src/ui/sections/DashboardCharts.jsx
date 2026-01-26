@@ -30,9 +30,7 @@ const DashboardCharts = () => {
     fetchCharts();
   }, []);
 
-  if (loading) {
-    return <p>Loading charts…</p>;
-  }
+  if (loading) return <p>Loading analytics…</p>;
 
   if (error) {
     return (
@@ -44,7 +42,7 @@ const DashboardCharts = () => {
 
   return (
     <section className="ui-charts">
-      {/* CGPA vs Selection */}
+      {/* CGPA Chart */}
       <div className="ui-chart-card">
         <h3>CGPA vs Selection Rate</h3>
 
@@ -62,7 +60,7 @@ const DashboardCharts = () => {
         )}
       </div>
 
-      {/* Skills Impact */}
+      {/* Skills Chart */}
       <div className="ui-chart-card">
         <h3>Skills Impact</h3>
 
