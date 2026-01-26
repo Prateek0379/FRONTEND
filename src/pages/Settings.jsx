@@ -1,42 +1,94 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
 
 function Settings() {
-  const [name, setName] = useState("John Doe");
-  const [email, setEmail] = useState("john@example.com");
+  const { user, setUser } = useAuth();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
+  useEffect(() => {
+    if (user) {
+      setName(user.name || "");
+      setEmail(user.email || "");
+    }
+  }, [user]);
+
   function handleSave() {
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+    setSaving(true);
+
+    // Simulate save (backend hook can be added later)
+    setTimeout(() => {
+      setUser((prev) => ({ ...prev, name }));
+      setSaving(false);
+      setSaved(true);
+
+      setTimeout(() => setSaved(false), 2000);
+    }, 800);
   }
 
   return (
-    <div>
+    <div className="ui-dashboard">
       <h2>Settings</h2>
 
-      <label>
-        Name
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </label>
+      <div style={{ marginTop: 24, maxWidth: 420 }}>
+        <label style={{ display: "block", marginBottom: 12 }}>
+          <span style={{ fontSize: 13, color: "#94a3b8" }}>
+            Full Name
+          </span>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            style={{
+              width: "100%",
+              marginTop: 6,
+              padding: "10px 12px",
+              borderRadius: 8,
+              border: "1px solid #1e293b",
+              backgroundColor: "#020617",
+              color: "#e5e7eb",
+            }}
+          />
+        </label>
 
-      <br />
+        <label style={{ display: "block", marginBottom: 20 }}>
+          <span style={{ fontSize: 13, color: "#94a3b8" }}>
+            Email
+          </span>
+          <input
+            type="email"
+            value={email}
+            disabled
+            style={{
+              width: "100%",
+              marginTop: 6,
+              padding: "10px 12px",
+              borderRadius: 8,
+              border: "1px solid #1e293b",
+              backgroundColor: "#020617",
+              color: "#64748b",
+              cursor: "not-allowed",
+            }}
+          />
+        </label>
 
-      <label>
-        Email
-        <input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </label>
+        <button
+          className="ui-btn primary"
+          onClick={handleSave}
+          disabled={saving}
+        >
+          {saving ? "Saving..." : "Save Changes"}
+        </button>
 
-      <br />
-
-      <button onClick={handleSave}>Save Changes</button>
-
-      {saved && <p style={{ color: "green" }}>Settings saved!</p>}
+        {saved && (
+          <p style={{ marginTop: 12, color: "#22c55e" }}>
+            Settings saved successfully
+          </p>
+        )}
+      </div>
     </div>
   );
 }
