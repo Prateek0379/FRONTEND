@@ -16,6 +16,7 @@ const DashboardCharts = () => {
   const [cgpaData, setCgpaData] = useState([]);
   const [skillsData, setSkillsData] = useState([]);
   const [cgpaSkillData, setCgpaSkillData] = useState([]);
+  const [roundData, setRoundData] = useState([]);
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -24,16 +25,24 @@ const DashboardCharts = () => {
         const cgpaRes = await api.get("/analytics/cgpa-vs-selection");
         const skillsRes = await api.get("/analytics/skills-impact");
 
-        // Simulated CGPA + Skill comparison
+        // Simulated CGPA + Skill interaction
         const combined = (cgpaRes.data.data || []).map((item) => ({
           cgpaBucket: item.cgpaBucket,
           withoutSkill: item.selectionRate,
           withSkill: Math.min(item.selectionRate + 8, 100),
         }));
 
+        // Simulated round elimination data
+        const roundElimination = [
+          { stage: "OA", eliminated: 55 },
+          { stage: "Technical", eliminated: 30 },
+          { stage: "HR", eliminated: 15 },
+        ];
+
         setCgpaData(cgpaRes.data.data || []);
         setSkillsData(skillsRes.data.data || []);
         setCgpaSkillData(combined);
+        setRoundData(roundElimination);
       } catch (err) {
         console.error("Failed to load charts", err);
         setError(true);
@@ -57,7 +66,7 @@ const DashboardCharts = () => {
       <div className="ui-chart-card">
         <h3>
           CGPA Impact
-          <span style={{ fontSize: 12, color: "#94a3b8" }}>
+          <span className="chart-subtitle">
             {" "}– Historical Selection Probability (Simulated)
           </span>
         </h3>
@@ -67,18 +76,13 @@ const DashboardCharts = () => {
             <XAxis dataKey="cgpaBucket" />
             <YAxis />
             <Tooltip />
-            <Bar
-              dataKey="selectionRate"
-              fill="#3b82f6"
-              radius={[6, 6, 0, 0]}
-            />
+            <Bar dataKey="selectionRate" fill="#3b82f6" radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
 
         <p className="chart-insight">
           Higher CGPA buckets historically show higher selection probability.
         </p>
-
         <p className="chart-guardrail">
           Historical trends based on simulated data, not individual prediction.
         </p>
@@ -88,7 +92,7 @@ const DashboardCharts = () => {
       <div className="ui-chart-card">
         <h3>
           Skill Impact
-          <span style={{ fontSize: 12, color: "#94a3b8" }}>
+          <span className="chart-subtitle">
             {" "}– Historical Association (Simulated)
           </span>
         </h3>
@@ -98,18 +102,13 @@ const DashboardCharts = () => {
             <XAxis dataKey="skill" />
             <YAxis />
             <Tooltip />
-            <Bar
-              dataKey="selectionRate"
-              fill="#22c55e"
-              radius={[6, 6, 0, 0]}
-            />
+            <Bar dataKey="selectionRate" fill="#22c55e" radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
 
         <p className="chart-insight">
           Candidates with certain skills historically performed better.
         </p>
-
         <p className="chart-guardrail">
           Skill impact reflects historical association only, not priority or
           requirement.
@@ -120,7 +119,7 @@ const DashboardCharts = () => {
       <div className="ui-chart-card" style={{ gridColumn: "1 / -1" }}>
         <h3>
           CGPA + Skill Interaction
-          <span style={{ fontSize: 12, color: "#94a3b8" }}>
+          <span className="chart-subtitle">
             {" "}– Selection Probability Comparison (Simulated)
           </span>
         </h3>
@@ -131,18 +130,8 @@ const DashboardCharts = () => {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar
-              dataKey="withoutSkill"
-              name="Without Skill"
-              fill="#64748b"
-              radius={[6, 6, 0, 0]}
-            />
-            <Bar
-              dataKey="withSkill"
-              name="With Skill"
-              fill="#3b82f6"
-              radius={[6, 6, 0, 0]}
-            />
+            <Bar dataKey="withoutSkill" fill="#64748b" name="Without Skill" />
+            <Bar dataKey="withSkill" fill="#3b82f6" name="With Skill" />
           </BarChart>
         </ResponsiveContainer>
 
@@ -150,10 +139,49 @@ const DashboardCharts = () => {
           At the same CGPA level, skill presence is historically associated with
           higher selection probability.
         </p>
-
         <p className="chart-guardrail">
           Comparison is between candidates within the same CGPA bucket, with and
           without selected skills.
+        </p>
+      </div>
+
+      {/* ================= ROUND ELIMINATION ================= */}
+      <div className="ui-chart-card">
+        <h3>
+          Round Elimination
+          <span className="chart-subtitle">
+            {" "}– Elimination Frequency by Stage (Simulated)
+          </span>
+        </h3>
+
+        <ResponsiveContainer width="100%" height={260}>
+          <BarChart data={roundData} layout="vertical">
+            <XAxis type="number" />
+            <YAxis dataKey="stage" type="category" />
+            <Tooltip />
+            <Bar dataKey="eliminated" fill="#ef4444" radius={[0, 6, 6, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+
+        <p className="chart-insight">
+          Most eliminations historically occur during the Online Assessment stage.
+        </p>
+        <p className="chart-guardrail">
+          Stages represent historical filtering patterns, not deterministic
+          outcomes.
+        </p>
+      </div>
+
+      {/* ================= COMPANY STRICTNESS ================= */}
+      <div className="ui-chart-card" style={{ opacity: 0.6 }}>
+        <h3>
+          Company Strictness
+          <span className="chart-subtitle"> – Coming Soon</span>
+        </h3>
+
+        <p className="chart-insight">
+          Company-level selection strictness analytics will be available after
+          backend integration.
         </p>
       </div>
     </div>
